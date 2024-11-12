@@ -16,6 +16,6 @@ clean-targets:
 models:
   containerized_deploy:
     staging:
-      +materialized: 'materialized view'
+      +materialized: 'materialized_view'
     presentation:
       +materialized: table
