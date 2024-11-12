@@ -1,0 +1,21 @@
+name: 'containerized_deploy'
+version: '1.0.0'
+profile: 'containerized_deploy'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  containerized_deploy:
+    staging:
+      +materialized: 'materialized view'
+    presentation:
+      +materialized: table

@@ -1,0 +1,21 @@
+containerized_deploy:
+  outputs:
+    dev:
+      dbname: devdb
+      host: postgres-dev
+      pass: password
+      port: 5432
+      schema: public
+      threads: 1
+      type: postgres
+      user: user
+    prd:
+      dbname: devdb
+      host: postgres-dev
+      pass: password
+      port: 5432
+      schema: public
+      threads: 1
+      type: postgres
+      user: user
+  target: dev
