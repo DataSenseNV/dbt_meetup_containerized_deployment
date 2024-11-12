@@ -23,5 +23,6 @@
                 "python.pythonPath": "/usr/local/bin/python"
             }
         }
-    }
+    },
+    "postCreateCommand": "pip install jafgen && cd /tmp && jafgen 3 && mv /tmp/jaffle-data/*.csv /usr/app/dbt/seeds/ && cd /usr/app/dbt && dbt deps && dbt seed"
 }
