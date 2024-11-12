@@ -1,0 +1,22 @@
+{
+    "name": "dbt meetup devcontainer",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "dbt-postgres",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-azuretools.vscode-docker",
+                "redhat.vscode-yaml",
+                "streetsidesoftware.code-spell-checker",
+                "eamodio.gitlens",
+                "ms-vscode-remote.remote-containers"
+            ],
+            "settings": {
+                "python.pythonPath": "/usr/local/bin/python"
+            }
+        }
+    },
+    "postCreateCommand": "dbt debug"
+}

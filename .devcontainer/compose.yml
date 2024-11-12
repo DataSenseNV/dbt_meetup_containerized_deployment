@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  dbt-postgres:
+    image: ghcr.io/dbt-labs/dbt-postgres:latest
+    networks:
+      - dev-network
+      - prd-network
+
+  postgres-dev:
+    image: postgres:16
+    volumes:
+      - postgres-dev-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: devdb
+    networks:
+      - dev-network
+
+  postgres-prd:
+    image: postgres:14
+    volumes:
+      - postgres-prd-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: prddb
+    networks:
+      - prd-network
+
+volumes:
+  postgres-dev-data:
+  postgres-prd-data:
+
+networks:
+  dev-network:
+  prd-network:
