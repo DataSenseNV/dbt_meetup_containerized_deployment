@@ -9,27 +9,27 @@ services:
       - dev-network
       - prd-network
 
-  postgres-dev:
+  postgres-development-db:
     image: postgres:16-alpine
     restart: always
     volumes:
       - postgres-dev-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: devdb
+      POSTGRES_USER: dbt_developer
+      POSTGRES_PASSWORD: intricate_password
+      POSTGRES_DB: jaffle_shop
     networks:
       - dev-network
 
-  postgres-prd:
+  postgres-production-db:
     image: postgres:14-alpine
     restart: always
     volumes:
       - postgres-prd-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: prddb
+      POSTGRES_USER: dbt_user
+      POSTGRES_PASSWORD: very_intricate_password
+      POSTGRES_DB: jaffle_store
     networks:
       - prd-network
 

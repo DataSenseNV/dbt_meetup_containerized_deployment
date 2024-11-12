@@ -1,21 +1,21 @@
 containerized_deploy:
   outputs:
     dev:
-      dbname: devdb
-      host: postgres-dev
-      pass: password
+      type: postgres
+      host: postgres-development-db
       port: 5432
+      user: dbt_developer
+      pass: intricate_password
+      dbname: jaffle_shop
       schema: public
       threads: 1
-      type: postgres
-      user: user
     prd:
-      dbname: devdb
-      host: postgres-dev
-      pass: password
+      type: postgres
+      host: postgres-production-db
       port: 5432
+      user: dbt_user
+      pass: very_intricate_password
+      dbname: jaffle_store
       schema: public
       threads: 1
-      type: postgres
-      user: user
   target: dev
