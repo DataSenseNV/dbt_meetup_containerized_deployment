@@ -3,12 +3,17 @@ version: '3.8'
 services:
   dbt-postgres:
     image: ghcr.io/dbt-labs/dbt-postgres:latest
+    entrypoint: ["tail", "-f", "/dev/null"]
+    depends_on:
+      - postgres-dev
+      - postgres-prd
     networks:
       - dev-network
       - prd-network
 
   postgres-dev:
-    image: postgres:16
+    image: postgres:16-alpine
+    restart: always
     volumes:
       - postgres-dev-data:/var/lib/postgresql/data
     environment:
@@ -19,7 +24,8 @@ services:
       - dev-network
 
   postgres-prd:
-    image: postgres:14
+    image: postgres:14-alpine
+    restart: always
     volumes:
       - postgres-prd-data:/var/lib/postgresql/data
     environment:
