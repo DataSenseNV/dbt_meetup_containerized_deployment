@@ -7,7 +7,7 @@ containerized_deploy:
       user: dbt_developer
       pass: intricate_password
       dbname: jaffle_shop
-      schema: public
+      schema: landing
       threads: 1
     prd:
       type: postgres
@@ -16,6 +16,6 @@ containerized_deploy:
       user: dbt_user
       pass: very_intricate_password
       dbname: jaffle_store
-      schema: public
+      schema: landing
       threads: 1
   target: dev
