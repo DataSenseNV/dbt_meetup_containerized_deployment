@@ -3,8 +3,8 @@ services:
     image: ghcr.io/dbt-labs/dbt-postgres:latest
     entrypoint: ["tail", "-f", "/dev/null"]
     depends_on:
-      - postgres-dev
-      - postgres-prd
+      - postgres-development-db
+      - postgres-production-db
     networks:
       - dev-network
       - prd-network
