@@ -1,0 +1,1 @@
+select * from {{ source(target.dbname, 'raw_customers') }}
