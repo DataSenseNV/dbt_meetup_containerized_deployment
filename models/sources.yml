@@ -2,8 +2,11 @@ version: 2
 
 sources:
   - name: jaffle_shop
-    database: jaffle_shop
-    schema: landing
+    schema: |
+      {%- if target.name == "prd" -%} landing
+      {%- elif target.name == "dev" -%} landing
+      {%- else -%} landing
+      {%- endif -%}
     tables:
       - name: raw_customers
       - name: raw_items

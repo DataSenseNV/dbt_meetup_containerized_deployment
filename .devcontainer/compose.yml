@@ -4,39 +4,23 @@ services:
     entrypoint: ["tail", "-f", "/dev/null"]
     depends_on:
       - postgres-development-db
-      - postgres-production-db
+    env_file:
+      - .env
     networks:
       - dev-network
-      - prd-network
 
   postgres-development-db:
-    image: postgres:16-alpine
+    image: postgres:17-alpine
     restart: always
     volumes:
       - postgres-dev-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: dbt_developer
-      POSTGRES_PASSWORD: intricate_password
-      POSTGRES_DB: jaffle_shop
+    env_file:
+      - .env
     networks:
       - dev-network
 
-  postgres-production-db:
-    image: postgres:14-alpine
-    restart: always
-    volumes:
-      - postgres-prd-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: dbt_user
-      POSTGRES_PASSWORD: very_intricate_password
-      POSTGRES_DB: jaffle_store
-    networks:
-      - prd-network
-
 volumes:
   postgres-dev-data:
-  postgres-prd-data:
 
 networks:
   dev-network:
-  prd-network:

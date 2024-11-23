@@ -1,0 +1,48 @@
+name: Deploy dbt Project to PRD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Install dbt
+      run: pip install dbt-postgres
+
+    - name: Set up environment variables
+      uses: actions/github-script@v6
+      with:
+        script: |
+            process.env.POSTGRES_HOST = '${{ secrets.POSTGRES_HOST_PRD }}'
+            process.env.POSTGRES_PORT = '${{ vars.POSTGRES_PORT_PRD }}'
+            process.env.POSTGRES_USER = '${{ vars.POSTGRES_USER_PRD }}'
+            process.env.POSTGRES_PASSWORD = '${{ secrets.POSTGRES_PASSWORD_PRD }}'
+            process.env.POSTGRES_DATABASE = '${{ vars.POSTGRES_DATABASE_PRD }}'
+            process.env.DBT_SOURCE_SCHEMA = '${{ vars.DBT_SOURCE_SCHEMA_PRD }}'
+
+    - name: Run dbt deps
+      run: dbt deps
+    
+    - name: Run dbt debug
+      run: dbt debug
+
+    - name: Run dbt seed
+      run: dbt seed --target prd
+
+    - name: Run dbt run
+      run: dbt run --target prd
+
+    - name: Run dbt test
+      run: dbt test --target prd
