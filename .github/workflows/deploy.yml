@@ -5,6 +5,14 @@ on:
     branches:
       - main
 
+env:
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}
+  POSTGRES_PORT: ${{ vars.POSTGRES_PORT_PRD }}
+  POSTGRES_USER: ${{ vars.POSTGRES_USER_PRD }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_PRD }}
+  POSTGRES_DATABASE: ${{ vars.POSTGRES_DATABASE_PRD }}
+  DBT_SOURCE_SCHEMA: ${{ vars.DBT_SOURCE_SCHEMA_PRD }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -20,17 +28,6 @@ jobs:
 
     - name: Install dbt
       run: pip install dbt-postgres
-
-    - name: Set up environment variables
-      uses: actions/github-script@v6
-      with:
-        script: |
-            process.env.POSTGRES_HOST = '${{ secrets.POSTGRES_HOST_PRD }}'
-            process.env.POSTGRES_PORT = '${{ vars.POSTGRES_PORT_PRD }}'
-            process.env.POSTGRES_USER = '${{ vars.POSTGRES_USER_PRD }}'
-            process.env.POSTGRES_PASSWORD = '${{ secrets.POSTGRES_PASSWORD_PRD }}'
-            process.env.POSTGRES_DATABASE = '${{ vars.POSTGRES_DATABASE_PRD }}'
-            process.env.DBT_SOURCE_SCHEMA = '${{ vars.DBT_SOURCE_SCHEMA_PRD }}'
 
     - name: Run dbt deps
       run: dbt deps
