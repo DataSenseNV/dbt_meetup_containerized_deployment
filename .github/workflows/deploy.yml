@@ -7,7 +7,6 @@ on:
 
 env:
   POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}
-  POSTGRES_PORT: ${{ vars.POSTGRES_PORT_PRD }}
   POSTGRES_USER: ${{ vars.POSTGRES_USER_PRD }}
   POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_PRD }}
   POSTGRES_DATABASE: ${{ vars.POSTGRES_DATABASE_PRD }}
@@ -31,9 +30,9 @@ jobs:
 
     - name: Run dbt deps
       run: dbt deps
-    
+
     - name: Run dbt debug
-      run: dbt debug
+      run: dbt debug --target prd
 
     - name: Run dbt seed
       run: dbt seed --target prd
