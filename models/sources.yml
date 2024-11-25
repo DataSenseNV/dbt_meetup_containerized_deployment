@@ -3,10 +3,7 @@ version: 2
 sources:
   - name: jaffle_shop
     schema: |
-      {%- if target.name == "prd" -%} landing
-      {%- elif target.name == "dev" -%} landing
-      {%- else -%} landing
-      {%- endif -%}
+      {{ env_var('DBT_SCHEMA', target.schema) }}
     tables:
       - name: raw_customers
       - name: raw_items
