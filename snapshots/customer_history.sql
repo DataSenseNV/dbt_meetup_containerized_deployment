@@ -3,7 +3,7 @@
 {{
     config(
       target_schema=target.schema,
-      unique_key=dbt_utils.generate_surrogate_key([id, name]),
+      unique_key=dbt_utils.generate_surrogate_key(['id', 'name']),
       strategy='check',
       check_cols=['id', 'name'],
       invalidate_hard_deletes=True

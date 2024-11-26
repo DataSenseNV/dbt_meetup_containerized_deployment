@@ -3,7 +3,7 @@
 {{
     config(
       target_schema=target.schema,
-      unique_key=dbt_utils.generate_surrogate_key([id, ordered_at]),
+      unique_key=dbt_utils.generate_surrogate_key(['id', 'ordered_at']),
       strategy='timestamp',
       updated_at='ordered_at'
     )
