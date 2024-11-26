@@ -11,5 +11,3 @@ sources:
       - name: raw_orders
       - name: raw_products
       - name: raw_stores
-      - name: raw_supplies
-      - name: raw_tweets
