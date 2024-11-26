@@ -22,7 +22,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
 
-      - id: Get file changes
+      - name: Get file changes
         uses: trilom/file-changes-action@v1.2.4
         with:
           output: " "
