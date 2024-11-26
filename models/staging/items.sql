@@ -11,7 +11,7 @@
     SELECT 
         '1' AS id,
         '1' as order_id,
-        'ITM-001' AS name
+        'ITM-001' AS sku
 {%- endset -%}
 
 {% if source_exists('raw_items') %}
