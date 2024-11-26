@@ -8,23 +8,23 @@
 
 WITH items AS (
     SELECT *
-    FROM {{ ref('stg_items') }}
+    FROM {{ ref('items') }}
 ),
 customers AS (
     SELECT *
-    FROM {{ ref('stg_customers') }}
+    FROM {{ ref('customers') }}
 ),
 products AS (
     SELECT *
-    FROM {{ ref('stg_products') }}
+    FROM {{ ref('products') }}
 ),
 stores AS (
     SELECT *
-    FROM {{ ref('stg_stores') }}
+    FROM {{ ref('stores') }}
 ),
 orders AS (
     SELECT *
-    FROM {{ ref('stg_orders') }}
+    FROM {{ ref('orders') }}
 )
 
 SELECT
