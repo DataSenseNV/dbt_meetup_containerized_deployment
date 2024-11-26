@@ -1,0 +1,35 @@
+name: dbt-checkpoint
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  dbt-checkpoint:
+    runs-on: ubuntu-latest
+    env:
+      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}
+      POSTGRES_USER: ${{ vars.POSTGRES_USER_PRD }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_PRD }}
+      POSTGRES_DB: ${{ vars.POSTGRES_DATABASE_PRD }}
+      DBT_SOURCE_SCHEMA: ${{ vars.DBT_SOURCE_SCHEMA_PRD }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+
+      - id: Get file changes
+        uses: trilom/file-changes-action@v1.2.4
+        with:
+          output: " "
+
+      - name: Run dbt checkpoint
+        uses: dbt-checkpoint/action@v0.1
+        with:
+          extra_args: --files ${{ steps.get_file_changes.outputs.files}}
+          dbt_version: 1.8.3
+          dbt_adapter: dbt-postgres

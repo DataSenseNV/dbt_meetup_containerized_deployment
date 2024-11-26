@@ -1,12 +1,7 @@
-name: Deploy dbt Project to PRD
+name: Refresh seed in project for PRD
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 env:
   POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}
@@ -34,8 +29,5 @@ jobs:
     - name: Run dbt deps
       run: dbt deps
 
-    - name: Run dbt run
-      run: dbt run --target prd
-
-    - name: Run dbt test
-      run: dbt test --target prd
+    - name: Run dbt seed
+      run: dbt seed --target prd
