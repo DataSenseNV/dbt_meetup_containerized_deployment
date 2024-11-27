@@ -1,0 +1,28 @@
+{
+    "name": "dbt meetup devcontainer",
+    "dockerComposeFile": "compose.yml",
+    "service": "dbt-postgres",
+    "workspaceFolder": "/usr/app/dbt",
+    "mounts": [
+        "source=${localWorkspaceFolder},target=/usr/app/dbt,type=bind,consistency=cached"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "aaron-bond.better-comments",
+                "adpyke.codesnap",
+                "innoverio.vscode-dbt-power-user",
+                "ms-python.python",
+                "redhat.vscode-yaml",
+                "samuelcolvin.jinjahtml",
+                "streetsidesoftware.code-spell-checker",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "ZainChen.json"
+            ],
+            "settings": {
+                "python.pythonPath": "/usr/local/bin/python"
+            }
+        }
+    },
+    "postCreateCommand": "dbt deps && dbt seed"
+}

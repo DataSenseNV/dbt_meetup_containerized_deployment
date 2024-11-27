@@ -1,0 +1,26 @@
+services:
+  dbt-postgres:
+    image: ghcr.io/dbt-labs/dbt-postgres:latest
+    entrypoint: ["tail", "-f", "/dev/null"]
+    depends_on:
+      - postgres-development-db
+    env_file:
+      - .env
+    networks:
+      - dev-network
+
+  postgres-development-db:
+    image: postgres:17-alpine
+    restart: always
+    volumes:
+      - postgres-dev-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - dev-network
+
+volumes:
+  postgres-dev-data:
+
+networks:
+  dev-network:

@@ -1,0 +1,21 @@
+containerized_deploy:
+  outputs:
+    dev:
+      type: postgres
+      host: postgres-development-db
+      port: 5432
+      user: "{{ env_var('POSTGRES_USER') }}"
+      pass: "{{ env_var('POSTGRES_PASSWORD') }}"
+      dbname: "{{ env_var('POSTGRES_DB') }}"
+      schema: "{{ env_var('DBT_SOURCE_SCHEMA') }}"
+      threads: 1
+    prd:
+      type: postgres
+      host: "{{ env_var('POSTGRES_HOST') }}"
+      port: 5432
+      user: "{{ env_var('POSTGRES_USER') }}"
+      pass: "{{ env_var('POSTGRES_PASSWORD') }}"
+      dbname: "{{ env_var('POSTGRES_DB') }}"
+      schema: "{{ env_var('DBT_SOURCE_SCHEMA') }}"
+      threads: 1
+  target: dev

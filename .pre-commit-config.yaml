@@ -1,0 +1,11 @@
+repos:
+- repo: https://github.com/dbt-checkpoint/dbt-checkpoint
+  rev: v2.0.6
+  hooks:
+  - id: dbt-parse
+  - id: check-model-has-all-columns
+    name: Check columns - core
+    files: ^models/staging
+  - id: check-model-has-all-columns
+    name: Check columns - core
+    files: ^models/presentation

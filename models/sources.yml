@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: |
+      {{ env_var('POSTGRES_DB', target.database) }}
+    schema: |
+      {{ env_var('DBT_SOURCE_SCHEMA', target.schema) }}
+    tables:
+      - name: raw_customers
+      - name: raw_items
+      - name: raw_orders
+      - name: raw_products
+      - name: raw_stores

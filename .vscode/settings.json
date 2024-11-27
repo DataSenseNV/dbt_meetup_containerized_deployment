@@ -1,0 +1,7 @@
+{
+    "dbt.enableNewLineagePanel": true,
+    "dbt.lineage.defaultExpansion": 2,
+    "dbt.dbtPythonPathOverride": "/usr/local/bin/python",
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
+    "dbt.perspectiveTheme": "Monokai",
+}
