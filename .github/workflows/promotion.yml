@@ -39,11 +39,11 @@ jobs:
     - name: Run dbt test for target branch
       env:
         POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}
-        POSTGRES_USER: ${{ github.head_ref == 'prd' && vars.POSTGRES_USER_PRD || vars.POSTGRES_USER_PRE }}
-        POSTGRES_PASSWORD: ${{ github.head_ref == 'prd' && secrets.POSTGRES_PASSWORD_PRD || secrets.POSTGRES_PASSWORD_PRE }}
-        POSTGRES_DB: ${{ github.head_ref == 'prd' && vars.POSTGRES_DATABASE_PRD || vars.POSTGRES_DATABASE_PRE }}
-        DBT_SOURCE_SCHEMA: ${{ github.head_ref == 'prd' && vars.DBT_SOURCE_SCHEMA_PRD || vars.DBT_SOURCE_SCHEMA_PRE }}
+        POSTGRES_USER: ${{ github.base_ref == 'prd' && vars.POSTGRES_USER_PRD || vars.POSTGRES_USER_PRE }}
+        POSTGRES_PASSWORD: ${{ github.base_ref == 'prd' && secrets.POSTGRES_PASSWORD_PRD || secrets.POSTGRES_PASSWORD_PRE }}
+        POSTGRES_DB: ${{ github.base_ref == 'prd' && vars.POSTGRES_DATABASE_PRD || vars.POSTGRES_DATABASE_PRE }}
+        DBT_SOURCE_SCHEMA: ${{ github.base_ref == 'prd' && vars.DBT_SOURCE_SCHEMA_PRD || vars.DBT_SOURCE_SCHEMA_PRE }}
         PGSSLCERT: /tmp/postgresql.crt
         PGSSLKEY: /tmp/postgresql.key
         PGSSLROOTCERT: /tmp/root.crt
-      run: dbt test --select tag:promotion --target ${{ github.head_ref }}
+      run: dbt test --select tag:promotion --target ${{ github.base_ref }}
