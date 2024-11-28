@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: jaffle_fact
+    description: This is a fact.
+    columns:
+      - name: product_description
+        description: The description of the product.
+        tests:
+          - contains_data

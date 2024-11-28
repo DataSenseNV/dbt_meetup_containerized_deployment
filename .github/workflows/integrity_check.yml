@@ -1,0 +1,59 @@
+name: Verify project integrity
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}
+  POSTGRES_USER: ${{ vars.POSTGRES_USER_PRE }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_PRE }}
+  POSTGRES_DB: ${{ vars.POSTGRES_DATABASE_PRE }}
+  DBT_SOURCE_SCHEMA: ${{ vars.DBT_SOURCE_SCHEMA_PRE }}
+  POSTGRES_SSL_CERT: ${{ secrets.POSTGRES_SSL_CERT_PRD }}
+  POSTGRES_SSL_KEY: ${{ secrets.POSTGRES_SSL_KEY_PRD }}
+  POSTGRES_SSL_ROOT_CERT: ${{ secrets.POSTGRES_SSL_ROOT_CERT_PRD }}
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Create SSL cert files
+      env:
+        POSTGRES_SSL_CERT: ${{ secrets.POSTGRES_SSL_CERT_PRD }}
+        POSTGRES_SSL_KEY: ${{ secrets.POSTGRES_SSL_KEY_PRD }}
+        POSTGRES_SSL_ROOT_CERT: ${{ secrets.POSTGRES_SSL_ROOT_CERT_PRD }}
+      run: |
+        echo "$POSTGRES_SSL_CERT" > /tmp/postgresql.crt
+        echo "$POSTGRES_SSL_KEY" > /tmp/postgresql.key
+        echo "$POSTGRES_SSL_ROOT_CERT" > /tmp/root.crt
+        chmod 0600 /tmp/postgresql.key 
+
+    - name: Install dbt
+      run: pip install dbt-postgres
+
+    - name: Run dbt deps
+      run: dbt deps
+
+    - name: Compile for for pre target
+      env:
+        PGSSLCERT: /tmp/postgresql.crt
+        PGSSLKEY: /tmp/postgresql.key
+        PGSSLROOTCERT: /tmp/root.crt
+      run: |
+        dbt docs generate --target pre
+
+    - name: Run dbt checkpoint
+      uses: dbt-checkpoint/action@v0.1
+      with:
+        dbt_version: 1.8.3
+        dbt_adapter: dbt-postgres

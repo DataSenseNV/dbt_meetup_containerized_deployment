@@ -1,13 +1,13 @@
-name: Deploy dbt project to PRE / PRD
+name: Verify project status is ready to promote
 
 on:
-  push:
+  pull_request:
     branches:
       - prd
       - pre
 
 jobs:
-  deploy:
+  verify_promotion:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +36,7 @@ jobs:
         echo "$POSTGRES_SSL_ROOT_CERT" > /tmp/root.crt
         chmod 0600 /tmp/postgresql.key 
 
-    - name: Run dbt run
+    - name: Run dbt test for target branch
       env:
         POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}
         POSTGRES_USER: ${{ github.base_ref == 'prd' && vars.POSTGRES_USER_PRD || vars.POSTGRES_USER_PRE }}
@@ -46,4 +46,4 @@ jobs:
         PGSSLCERT: /tmp/postgresql.crt
         PGSSLKEY: /tmp/postgresql.key
         PGSSLROOTCERT: /tmp/root.crt
-      run: dbt build --target ${{ github.base_ref }}
+      run: dbt test --select tag:promotion --target ${{ github.base_ref }}
