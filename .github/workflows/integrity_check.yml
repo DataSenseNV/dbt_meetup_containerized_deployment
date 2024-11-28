@@ -53,6 +53,5 @@ jobs:
     - name: Run dbt checkpoint
       uses: dbt-checkpoint/action@v0.1
       with:
-        extra_args: --target pre
         dbt_version: 1.8.3
         dbt_adapter: dbt-postgres
