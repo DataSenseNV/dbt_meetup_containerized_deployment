@@ -5,24 +5,25 @@ on:
     branches:
       - dev
 
+env:
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}
+  POSTGRES_USER: ${{ vars.POSTGRES_USER_PRE }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_PRE }}
+  POSTGRES_DB: ${{ vars.POSTGRES_DATABASE_PRE }}
+  DBT_SOURCE_SCHEMA: ${{ vars.DBT_SOURCE_SCHEMA_PRE }}
+  POSTGRES_SSL_CERT: ${{ secrets.POSTGRES_SSL_CERT_PRD }}
+  POSTGRES_SSL_KEY: ${{ secrets.POSTGRES_SSL_KEY_PRD }}
+  POSTGRES_SSL_ROOT_CERT: ${{ secrets.POSTGRES_SSL_ROOT_CERT_PRD }}
+
 jobs:
   verify:
     runs-on: ubuntu-latest
-    env:
-      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}
-      POSTGRES_USER: ${{ vars.POSTGRES_USER_PRE }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD_PRE }}
-      POSTGRES_DB: ${{ vars.POSTGRES_DATABASE_PRE }}
-      DBT_SOURCE_SCHEMA: ${{ vars.DBT_SOURCE_SCHEMA_PRE }}
-      POSTGRES_SSL_CERT: ${{ secrets.POSTGRES_SSL_CERT_PRD }}
-      POSTGRES_SSL_KEY: ${{ secrets.POSTGRES_SSL_KEY_PRD }}
-      POSTGRES_SSL_ROOT_CERT: ${{ secrets.POSTGRES_SSL_ROOT_CERT_PRD }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+    - name: Setup Python
+      uses: actions/setup-python@v5
 
     - name: Create SSL cert files
       env:
@@ -35,16 +36,17 @@ jobs:
         echo "$POSTGRES_SSL_ROOT_CERT" > /tmp/root.crt
         chmod 0600 /tmp/postgresql.key 
 
-    - name: Compile for for 'pre' target
+    - name: Compile for for pre target
       env:
         PGSSLCERT: /tmp/postgresql.crt
         PGSSLKEY: /tmp/postgresql.key
         PGSSLROOTCERT: /tmp/root.crt
-      run: dbt compile --target pre
+      run: |
+        dbt compile --target pre
 
-      - name: Run dbt checkpoint
-        uses: dbt-checkpoint/action@v0.1
-        with:
-          extra_args: --target pre
-          dbt_version: 1.8.3
-          dbt_adapter: dbt-postgres
+    - name: Run dbt checkpoint
+      uses: dbt-checkpoint/action@v0.1
+      with:
+        extra_args: --target pre
+        dbt_version: 1.8.3
+        dbt_adapter: dbt-postgres
