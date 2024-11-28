@@ -12,7 +12,7 @@ with row_counts as (
 ),
 
 empty_model as (
-    select row_count from row_counts where row_count == 0
+    select row_count from row_counts where row_count = 0
 )
 
 select *
