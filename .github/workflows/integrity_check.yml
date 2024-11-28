@@ -6,7 +6,7 @@ on:
       - dev
 
 jobs:
-  dbt-checkpoint:
+  verify:
     runs-on: ubuntu-latest
     env:
       POSTGRES_HOST: ${{ secrets.POSTGRES_HOST_PRD }}

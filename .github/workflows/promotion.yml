@@ -7,7 +7,7 @@ on:
       - pre
 
 jobs:
-  deploy:
+  verify_promotion:
     runs-on: ubuntu-latest
 
     steps:
