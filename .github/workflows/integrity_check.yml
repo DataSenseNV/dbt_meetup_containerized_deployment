@@ -36,6 +36,12 @@ jobs:
         echo "$POSTGRES_SSL_ROOT_CERT" > /tmp/root.crt
         chmod 0600 /tmp/postgresql.key 
 
+    - name: Install dbt
+      run: pip install dbt-postgres
+
+    - name: Run dbt deps
+      run: dbt deps
+
     - name: Compile for for pre target
       env:
         PGSSLCERT: /tmp/postgresql.crt
