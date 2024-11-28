@@ -48,7 +48,7 @@ jobs:
         PGSSLKEY: /tmp/postgresql.key
         PGSSLROOTCERT: /tmp/root.crt
       run: |
-        dbt compile --target pre
+        dbt docs compile --target pre
 
     - name: Run dbt checkpoint
       uses: dbt-checkpoint/action@v0.1
