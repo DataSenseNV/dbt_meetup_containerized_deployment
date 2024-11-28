@@ -1,4 +1,5 @@
 models:
   - name: jaffle_fact
     description: This is a fact.
-    tests: contains_data
+    tests: 
+      - contains_data
