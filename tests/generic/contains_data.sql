@@ -16,6 +16,6 @@ empty_model as (
 )
 
 select *
-from empty_model;
+from empty_model
 
 {%- endtest -%}
